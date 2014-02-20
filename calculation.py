@@ -57,7 +57,7 @@ for loopcount in range(0,10000):
 		else:
 			break
 
-	
+
 	line = Line(lats_round[n1],longs_round[n1],lats_round[n2],longs_round[n2])
 
 
@@ -81,5 +81,3 @@ for loopcount in range(0,10000):
 
 	if abs(percent_right - percent_left) <= .01:
 		out.writerow([lats_round[n1],longs_round[n1],lats_round[n2],longs_round[n2],left_total,right_total,percent_left,percent_right])
-
-
