@@ -90,7 +90,7 @@ fig = plt.figure()
 ax = fig.add_axes([0.1,0.1,0.8,0.8])
 #setup base map
 m = Basemap(llcrnrlon=-123.4,llcrnrlat=21.77,urcrnrlon=-54.55,urcrnrlat=48.79,\
-           	projection='gnom',\
+           	projection='merc',\
             lat_0=90.,lon_0=-90.)
 # transform to nx x ny regularly spaced 5km native projection grid
 nx = int((m.xmax-m.xmin)/5000.)+1; ny = int((m.ymax-m.ymin)/5000.)+1
