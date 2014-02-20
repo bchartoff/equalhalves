@@ -32,10 +32,10 @@ class Greatcircle:
 def crosstrack(circle,lat3,lon3):
 	#calc distance from third point to a given great circle
 	#sign of distance used to determine which side of circle points lie on in calculation.py
-	circle13 = Greatcircle(circle.lat1,circle.lon1,lat3,lon3)
+	circle13 = Greatcircle(math.degrees(circle.lat1),math.degrees(circle.lon1),lat3,lon3)
 	d13 = circle13.length
-	b13 = circle13.bearing
-	b12 = circle.bearing
+	b13 = math.radians(circle13.bearing)
+	b12 = math.radians(circle.bearing)
 
 	return math.asin(math.sin(d13/R)*math.sin(b13-b12)) * R
 

@@ -25,7 +25,7 @@ for row in data:
 	lats_round.append(round(float(row[5]),1))
 	longs_round.append(round(float(row[6]),1))
 
-for loopcount in range(0,10000):
+for loopcount in range(0,100):
 	print loopcount
 	left_total = 0.
 	right_total = 0.
