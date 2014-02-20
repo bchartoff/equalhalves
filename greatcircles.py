@@ -1,8 +1,15 @@
 import math
 
+#################
+# great cirlce calculation functions from http://www.movable-type.co.uk/scripts/latlong.html
+##################
+
+#radius of Earth in km
 R = 6371
+
 class Greatcircle:
 	def __init__(self,lat1,lon1,lat2,lon2):
+		#create a great circle which runs through 2 points w/ known lat/lon
 		dlat = math.radians(lat2-lat1)
 		dlon = math.radians(lon2-lon1)
 		self.lat1 = math.radians(lat1)
@@ -10,10 +17,12 @@ class Greatcircle:
 		self.lon1 = math.radians(lon1)
 		self.lon2 = math.radians(lon2)
 
+		#calculate initial bearing from pt1 to pt2 (in degrees) along great circle
 		y = math.sin(dlon)*math.cos(self.lat2)
 		x = (math.cos(self.lat1)*math.sin(self.lat2))-(math.sin(self.lat1)*math.cos(self.lat2)*math.cos(dlon))
 		self.bearing = (math.degrees(math.atan2(y,x))+360)%360
 
+		#calculate length of great circle between pt1 and pt2
 		a = math.sin(dlat/2)*math.sin(dlat/2)+\
 		math.sin(dlon/2)*math.sin(dlon/2)*math.cos(self.lat1)*math.cos(self.lat2)
 		c = 2*math.atan2(math.sqrt(a),math.sqrt(1-a))
@@ -21,6 +30,8 @@ class Greatcircle:
 
 
 def crosstrack(circle,lat3,lon3):
+	#calc distance from third point to a given great circle
+	#sign of distance used to determine which side of circle points lie on in calculation.py
 	circle13 = Greatcircle(circle.lat1,circle.lon1,lat3,lon3)
 	d13 = circle13.length
 	b13 = circle13.bearing
@@ -30,6 +41,8 @@ def crosstrack(circle,lat3,lon3):
 
 
 def intersection(circle1, circle2):
+	#calc intersection point of two great circles
+	#used in drawmap.py to extend circles to fixed longitudes
 	lat1 = circle1.lat1
 	lat2 = circle2.lat1
 	lon1 = circle1.lon1

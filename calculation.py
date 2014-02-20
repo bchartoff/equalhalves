@@ -1,28 +1,12 @@
 import csv
 from random import randint
+from greatcircles import *
 
 data = csv.reader(open("data.csv","rU"))
 out = csv.writer(open("output.csv","wb"))
 
 head = data.next()
 out.writerow(["Lat1","Long1","Lat2","Long2","Pop_left","Pop_right","Percent_left","Percent_right"])
-
-class Line:
-	x1 = 0
-	y1 = 0
-	x2 = 0
-	y2 = 0
-	m = 0
-	#Find slope of line based on two points
-	def __init__(self,x1,y1,x2,y2):
-		self.x1 = x1
-		self.y1 = y1
-		self.x2 = x2
-		self.y2 = y2
-		self.m = (y1-y2)/(x1-x2)
-	def xint(self,y):
-		#eqn of line: y-y1 = m(x-x1), rearrange to solve for x w/ given y
-		return (y-self.y1+self.m*self.x1)/self.m
 
 
 lats = []
@@ -37,43 +21,37 @@ for row in data:
 	longs.append(float(row[6]))
 	pops.append(float(row[4]))
 
-	#populate list of points to draw lines through. Round to nearest .1 so that pop centers don't fall exactly on lines
+	#populate list of points to draw great circles through. Round to nearest .1 so that pop centers don't fall exactly on lines
 	lats_round.append(round(float(row[5]),1))
 	longs_round.append(round(float(row[6]),1))
 
 for loopcount in range(0,10000):
+	print loopcount
 	left_total = 0.
 	right_total = 0.
 
-	#pick two random points w/in the US to draw a line through
+	#pick two random points w/in the US to draw a great circle through
 	n1 = 0
 	n2 = 0
 	while True:
 		n1 = randint(0,len(lats)-1)
 		n2 = randint(0,len(lats)-1)
-		#prevent division by 0 errors for slope calcs
-		if lats_round[n1] == lats_round[n2]:
+		#ensure uniqueness of points
+		if n1 == n2:
 			continue
 		else:
 			break
 
+	#create a circle to test
+	testCircle = Greatcircle(lats_round[n1],longs_round[n1],lats_round[n2],longs_round[n2])
 
-	line = Line(lats_round[n1],longs_round[n1],lats_round[n2],longs_round[n2])
-
-
-	for i in range(0,len(lats)):
-		#handle horizontal lines
-		if line.m == 0:
-			if lats[i] > line.y1:
-				right_total += pops[i]
-			else:
-				left_total += pops[i]
+	for i in range(0,len(lats)):	
+		#for each center of population, determine if it lies to the left or right of the circle,
+		#and increment the appropriate population total
+		if crosstrack(testCircle,lats[i],longs[i]) < 0:
+			right_total += pops[i]
 		else:
-			#for each center of population, determine if it lies to the left or right of the line, and increment the appropriate population total
-			if line.xint(longs[i]) - lats[i] < 0:
-				right_total += pops[i]
-			else:
-				left_total += pops[i]
+			left_total += pops[i]
 	#write to file lines for which division is close to 50/50
 	total_pop = left_total+right_total
 	percent_left = left_total/total_pop
