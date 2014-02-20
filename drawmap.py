@@ -89,7 +89,7 @@ def intersection(circle1, circle2):
 fig = plt.figure()
 ax = fig.add_axes([0.1,0.1,0.8,0.8])
 #setup base map
-m = Basemap(llcrnrlon=-123.4,llcrnrlat=21.77,urcrnrlon=-54.55,urcrnrlat=48.79,\
+m = Basemap(llcrnrlon=-130.4,llcrnrlat=21.77,urcrnrlon=-54.55,urcrnrlat=48.79,\
            	projection='merc',\
             lat_0=90.,lon_0=-90.)
 # transform to nx x ny regularly spaced 5km native projection grid
@@ -123,16 +123,16 @@ for row in data:
 
 	try:
 		if lon1>lon2:
-			m.drawgreatcircle(-70.,right_coords[0],lon2,lat2, linewidth=.25, color='b', markerfacecolor='b')
+			m.drawgreatcircle(-70.,right_coords[0],lon2,lat2, linewidth=4, color='b', alpha = .05,markerfacecolor='b')
 			#m.drawgreatcircle(-80.,right_coords2[0],lon2,lat2, linewidth=.25, color='b', markerfacecolor='b')
 		else:
-			m.drawgreatcircle(-70.,right_coords[0],lon1,lat1, linewidth=.25, color='b', markerfacecolor='b')
+			m.drawgreatcircle(-70.,right_coords[0],lon1,lat1, linewidth=4, color='b', alpha = .05,markerfacecolor='b')
 
 		if lon1<lon2:
-			m.drawgreatcircle(-130.,left_coords[0],lon2,lat2, linewidth=.25, color='b', markerfacecolor='b')
+			m.drawgreatcircle(-130.,left_coords[0],lon2,lat2, linewidth=4, color='b', alpha = .05,markerfacecolor='b')
 			#m.drawgreatcircle(-80.,right_coords2[0],lon2,lat2, linewidth=.25, color='b', markerfacecolor='b')
 		else:
-			m.drawgreatcircle(-130.,left_coords[0],lon1,lat1, linewidth=.25, color='b', markerfacecolor='b')
+			m.drawgreatcircle(-130.,left_coords[0],lon1,lat1, linewidth=4, color='b', alpha = .05,markerfacecolor='b')
 			#m.drawgreatcircle(-80.,right_coords2[0],lon1,lat1, linewidth=.25, color='b', markerfacecolor='b')
 		#m.drawgreatcircle(-120,left_coords[0],lon1,lat1, linewidth=.5, color='r', markerfacecolor='b')
 		#m.drawgreatcircle(lon2,lat2,lon1,lat1,linewidth=.25, color='r', markerfacecolor='b')
