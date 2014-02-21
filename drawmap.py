@@ -34,27 +34,18 @@ def drawmap(m,outfile,title):
 		#get great circle from calculated endpoints in output
 		inCircle = Greatcircle(lat2,lon2,lat1,lon1)
 
-		#extend great cirlce to the right and left by calculating it's intersection with 2
-		#other great circles, at fixed longitudes (vertical lines on mercator projection)
-		# rightCircle = Greatcircle(0.,-60,10.,-60.)
-		# leftCircle = Greatcircle(0.,-130.,10.,-130.)
-
-
-		# if lon1<lon2:
-		# 	m.drawgreatcircle(lon2,lat2,-60.,right_coords[0], linewidth=.5, color='b', alpha = 1)
-		# 	m.drawgreatcircle(-130.,left_coords[0],lon1,lat1, linewidth=.5, color='b', alpha = 1)
-
-		# else:
-		# 	m.drawgreatcircle(lon1,lat1,-60.,right_coords[0], linewidth=.5, color='b', alpha = 1)
-		# 	m.drawgreatcircle(-130.,left_coords[0],lon2,lat2, linewidth=.5, color='b', alpha = 1)
 		for lon in [[-130,-101,'b'],[-101,-93,'b'],[-93,-87,'b'],[-87,-80,'b'],[-80,-60,'b']]:
+			#draw great circles arcs staggered like so. Drawing a single arc between the l/r endpoints
+			#encounters problems w/ basemap, which will not draw great circles which circle the globe and
+			#return -- to be fixed w/ a more elegant solution (in the intersection function?)
 			rightCircle = Greatcircle(0.,lon[0],10.,lon[0])
 			leftCircle = Greatcircle(0.,lon[1],10.,lon[1])
 			right_coords = intersection(inCircle,rightCircle)
 			left_coords = intersection(inCircle,leftCircle)
 			m.drawgreatcircle(left_coords[1],left_coords[0],right_coords[1],right_coords[0],linewidth=.2, color=lon[2])
-		#m.drawgreatcircle(lon1,lat1,lon2,lat2,linewidth=1,color='r')
-		#m.drawgreatcirlce(-60,35.,-130,35.,color='r')
+		#draw median center of population, found here
+		# https://www.census.gov/newsroom/releases/archives/facts_for_features_special_editions/cb11ff10.html
+		m.plot(-87.410365,38.472967, latlon=True,marker='o',color='r')
 
 
 	#set title and save graph
