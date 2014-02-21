@@ -36,23 +36,26 @@ def drawmap(m,outfile,title):
 
 		#extend great cirlce to the right and left by calculating it's intersection with 2
 		#other great circles, at fixed longitudes (vertical lines on mercator projection)
-		rightCircle = Greatcircle(0.,-60,10.,-60.)
-		leftCircle = Greatcircle(0.,-130.,10.,-130.)
+		# rightCircle = Greatcircle(0.,-60,10.,-60.)
+		# leftCircle = Greatcircle(0.,-130.,10.,-130.)
 
-		right_coords = intersection(inCircle,rightCircle)
-		left_coords = intersection(inCircle,leftCircle)
 
-		try:
-			if lon1<lon2:
-				#m.drawgreatcircle(lon2,lat2,-60.,right_coords[0], linewidth=.5, color='b', alpha = 1)
-				m.drawgreatcircle(-130.,left_coords[0],lon2,lat2, linewidth=.5, color='b', alpha = 1)
+		# if lon1<lon2:
+		# 	m.drawgreatcircle(lon2,lat2,-60.,right_coords[0], linewidth=.5, color='b', alpha = 1)
+		# 	m.drawgreatcircle(-130.,left_coords[0],lon1,lat1, linewidth=.5, color='b', alpha = 1)
 
-			else:
-				#m.drawgreatcircle(lon1,lat1,-60.,right_coords[0], linewidth=.5, color='b', alpha = 1)
-				m.drawgreatcircle(-130.,left_coords[0],lon1,lat1, linewidth=.5, color='b', alpha = 1)
-			m.drawgreatcircle(lon1,lat1,lon2,lat2,linewidth=.5, color='r')
-		except:
-			pass
+		# else:
+		# 	m.drawgreatcircle(lon1,lat1,-60.,right_coords[0], linewidth=.5, color='b', alpha = 1)
+		# 	m.drawgreatcircle(-130.,left_coords[0],lon2,lat2, linewidth=.5, color='b', alpha = 1)
+		for lon in [[-130,-101,'b'],[-101,-93,'b'],[-93,-87,'b'],[-87,-80,'b'],[-80,-60,'b']]:
+			rightCircle = Greatcircle(0.,lon[0],10.,lon[0])
+			leftCircle = Greatcircle(0.,lon[1],10.,lon[1])
+			right_coords = intersection(inCircle,rightCircle)
+			left_coords = intersection(inCircle,leftCircle)
+			m.drawgreatcircle(left_coords[1],left_coords[0],right_coords[1],right_coords[0],linewidth=.2, color=lon[2])
+		#m.drawgreatcircle(lon1,lat1,lon2,lat2,linewidth=1,color='r')
+		#m.drawgreatcirlce(-60,35.,-130,35.,color='r')
+
 
 	#set title and save graph
 	ax.set_title(title)
