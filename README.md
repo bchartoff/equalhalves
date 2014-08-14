@@ -17,4 +17,10 @@ Map drawn w/ Python's basemap package
 
 lcc.png shows one of the most familiar N. American projection, the lambert conformal conical projection.
 
+![lcc projection](https://raw.githubusercontent.com/bchartoff/equalhalves/master/lcc.png)
+
 gnom.png shows the gnomic projection, on which great circles are represented as straight lines.
+
+![gnomic projection](https://raw.githubusercontent.com/bchartoff/equalhalves/master/gnom.png)
+
+
